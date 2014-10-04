@@ -1,0 +1,114 @@
+  <!DOCTYPE html>
+<html ng-app="githubChallenge">
+ <head>
+  <title>Github Challenge</title>
+  <link rel="stylesheet"
+    href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script
+    src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script
+    src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"></script>
+ </head>
+
+ <body class="container" style="margin-top: 20px">
+    <div ng-controller="MainCtrl">
+     <form class="form-horizontal" role="form" ng-submit="addUser()">
+         <input type="text" placeholder="Enter Github Username" class="form-control" name="username"
+                 ng-model="username" required /><br><br>
+         <input type="submit" value="Submit" class="btn btn-primary" />
+     </form>
+     <br><hr><br> 
+      <!-- <div ng-repeat="username in userdata"> -->
+        <table style="border:1px solid black; padding:5px;">
+          <tr>
+            <th style="border:1px solid black; padding:5px;">Input</th>
+            <th style="border:1px solid black; padding:5px;">Data</th>
+          </tr>
+          <tr>
+            <td style="border:1px solid black; padding:5px;">Login Username </td>
+            <td style="border:1px solid black; padding:5px;">{{userdata.login | uppercase}}</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black; padding:5px;">Avatar </td>
+            <td style="border:1px solid black; padding:5px;"><img src="{{userdata.avatar_url}}" style="max-height:150px"></td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black; padding:5px;">Full Name </td>
+            <td style="border:1px solid black; padding:5px;">{{userdata.name}}</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black; padding:5px;">Email Address </td>
+            <td style="border:1px solid black; padding:5px;">{{userdata.email}}</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black; padding:5px;">Location </td>
+            <td style="border:1px solid black; padding:5px;">{{userdata.location}}</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black; padding:5px;"># of Public Repos </td>
+            <td style="border:1px solid black; padding:5px;">{{userdata.public_repos}}</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black; padding:5px;">Followers </td>
+            <td style="border:1px solid black; padding:5px;">{{userdata.followers}}</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black; padding:5px;">Following </td>
+            <td style="border:1px solid black; padding:5px;">{{userdata.following}}</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black; padding:5px;">Website </td>
+            <td style="border:1px solid black; padding:5px;">{{userdata.blog}}</td>
+          </tr>
+          
+          <!-- <p>All User Data: {{userdata}}</p> -->
+        </table>
+  <!--     </div> -->
+    </div>
+
+    <script>
+      var myApp = angular.module('githubChallenge', []);
+        // myApp.factory('userdata', [function(){
+        //   var o = {
+        //     userdata: []
+        //   };
+        //   return o;
+        // }]);
+        myApp.controller('MainCtrl', function ($scope, $http) {
+          $scope.addUser = function() {
+            var theUrl = "https://api.github.com/users/"+$scope.username;
+            console.log(theUrl);
+
+            var promise = $http.get(theUrl);
+            promise.then(function(response){
+              $scope.userdata = response.data;
+              console.log("userdata = "+$scope.userdata);
+            }) 
+          }
+
+
+        });
+
+        // myApp.filter('toUpperCase', function() {
+        //   var toUpperCaseFilter = function (items) {
+        //     var filtered = [];
+        //     var item = items[i];
+        //     var letterArray = item.split('');
+        //     for( var i = 0; i < item.length; i++) {
+              
+        //       var cap = item.charAt(0).toUpperCase()+item[i].slice(1);  
+              
+        //      }
+        //      return item.join(''); 
+        //     }
+
+        //     return toUpperCaseFilter
+        //   }
+
+        
+        // );
+    </script
+ </body>
+</html>
