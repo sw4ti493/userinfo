@@ -14,7 +14,7 @@
 
  <body class="container" style="margin-top: 20px">
   <h1>Find User Information</h1>
-  <p>For testing purposes, try inputting 'swatikumar16'!</p><br><br>
+  <p>For testing purposes, try inputting 'swatikumar16' for Swati Kumar's GitHub user information!</p><br><br>
     <div ng-controller="MainCtrl">
      <form class="form-horizontal" role="form" ng-submit="addUser()">
          <input type="text" placeholder="Enter Github Username" class="form-control" name="username"
@@ -23,46 +23,46 @@
      </form>
      <br><hr><br> 
       <!-- <div ng-repeat="username in userdata"> -->
-        <table style="border:1px solid black; padding:5px;">
+        <table style="border:1px solid black; padding:5px;" ng-repeat="username in userdata">
           <tr>
-            <th style="border:1px solid black; padding:5px;">Input</th>
-            <th style="border:1px solid black; padding:5px;">Data</th>
+            <th style="border:1px solid black; padding:5px;">Username</th>
+            <th style="border:1px solid black; padding:5px;">Avatar</th>
           </tr>
           <tr>
             <td style="border:1px solid black; padding:5px;">Login Username </td>
-            <td style="border:1px solid black; padding:5px;">{{userdata.login | uppercase}}</td>
+            <td style="border:1px solid black; padding:5px;">{{username.login | uppercase}}</td>
           </tr>
           <tr>
             <td style="border:1px solid black; padding:5px;">Avatar </td>
-            <td style="border:1px solid black; padding:5px;"><img src="{{userdata.avatar_url}}" style="max-height:150px"></td>
+            <td style="border:1px solid black; padding:5px;"><img src="{{username.avatar_url}}" style="max-height:150px"></td>
           </tr>
           <tr>
             <td style="border:1px solid black; padding:5px;">Full Name </td>
-            <td style="border:1px solid black; padding:5px;">{{userdata.name}}</td>
+            <td style="border:1px solid black; padding:5px;">{{username.name}}</td>
           </tr>
           <tr>
             <td style="border:1px solid black; padding:5px;">Email Address </td>
-            <td style="border:1px solid black; padding:5px;">{{userdata.email}}</td>
+            <td style="border:1px solid black; padding:5px;">{{username.email}}</td>
           </tr>
           <tr>
             <td style="border:1px solid black; padding:5px;">Location </td>
-            <td style="border:1px solid black; padding:5px;">{{userdata.location}}</td>
+            <td style="border:1px solid black; padding:5px;">{{username.location}}</td>
           </tr>
           <tr>
             <td style="border:1px solid black; padding:5px;"># of Public Repos </td>
-            <td style="border:1px solid black; padding:5px;">{{userdata.public_repos}}</td>
+            <td style="border:1px solid black; padding:5px;">{{username.public_repos}}</td>
           </tr>
           <tr>
             <td style="border:1px solid black; padding:5px;">Followers </td>
-            <td style="border:1px solid black; padding:5px;">{{userdata.followers}}</td>
+            <td style="border:1px solid black; padding:5px;">{{username.followers}}</td>
           </tr>
           <tr>
             <td style="border:1px solid black; padding:5px;">Following </td>
-            <td style="border:1px solid black; padding:5px;">{{userdata.following}}</td>
+            <td style="border:1px solid black; padding:5px;">{{username.following}}</td>
           </tr>
           <tr>
             <td style="border:1px solid black; padding:5px;">Website </td>
-            <td style="border:1px solid black; padding:5px;">{{userdata.blog}}</td>
+            <td style="border:1px solid black; padding:5px;"><a href="{{username.blog}}">{{username.blog}}<a></td>
           </tr>
           
           <!-- <p>All User Data: {{userdata}}</p> -->
@@ -72,26 +72,32 @@
 
     <script>
       var myApp = angular.module('githubChallenge', []);
-        // myApp.factory('userdata', [function(){
-        //   var o = {
-        //     userdata: []
-        //   };
-        //   return o;
-        // }]);
+      //   myApp.factory('userdata', [function(){
+      //     var o = {
+      //       userdata: []
+      //     };
+      //     return o;
+      //   }]);
+        
         myApp.controller('MainCtrl', function ($scope, $http) {
+          $scope.userdata = [];
+
           $scope.addUser = function() {
             var theUrl = "https://api.github.com/users/"+$scope.username;
             console.log(theUrl);
 
             var promise = $http.get(theUrl);
             promise.then(function(response){
-              $scope.userdata = response.data;
-              console.log("userdata = "+$scope.userdata);
+              $scope.userdata.push(response.data);
+              console.log($scope.userdata);
             }) 
           }
-
-
         });
+
+        // var append = function () {
+        //   $scope.userdata;
+        //   console.log(userdata);
+        // }
 
         // myApp.filter('toUpperCase', function() {
         //   var toUpperCaseFilter = function (items) {
@@ -111,6 +117,6 @@
 
         
         // );
-    </script
+    </script>
  </body>
 </html>
